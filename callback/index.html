@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tesla OAuth callback</title>
+</head>
+<body>
+  <h1>Tesla OAuth callback</h1>
+  <p id="message"></p>
+  <pre id="code" style="word-break: break-all;"></pre>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var code = params.get("code");
+      var error = params.get("error");
+      var errorDescription = params.get("error_description");
+      var message = document.getElementById("message");
+      var codeEl = document.getElementById("code");
+
+      if (error) {
+        message.textContent = errorDescription ? (error + ": " + errorDescription) : error;
+        codeEl.hidden = true;
+        return;
+      }
+
+      if (code) {
+        message.textContent = "If sign-in succeeded, copy the code below and give it to your Tesla butler. Do not share it with anyone else.";
+        codeEl.textContent = code;
+        return;
+      }
+
+      message.textContent = "No authorization code was found in this address.";
+      codeEl.hidden = true;
+    })();
+  </script>
+</body>
+</html>
